@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Tools.Commands
+namespace Utility.Command
 {
     interface IRelayCommand : ICommand
     {
