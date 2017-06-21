@@ -3,7 +3,7 @@ using log4net.Config;
 using System;
 using System.Reflection;
 
-namespace Utility.Logging
+namespace CommonUtility.Logging
 {
     public class Logger
     {

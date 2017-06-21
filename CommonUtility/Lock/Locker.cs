@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Utility.Lock
+namespace CommonUtility.Lock
 {
     public class Locker
     {

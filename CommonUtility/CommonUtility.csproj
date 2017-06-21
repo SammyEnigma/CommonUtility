@@ -33,6 +33,7 @@
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Build" />
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -51,15 +52,20 @@
     <Compile Include="Config\IXmlConfig.cs" />
     <Compile Include="Config\XmlConfigurator.cs" />
     <Compile Include="Convert\Converter.cs" />
+    <Compile Include="Extension\BuildSubmissionExtension.cs" />
+    <Compile Include="Extension\DayOfWeekExtension.cs" />
     <Compile Include="Lock\Locker.cs" />
     <Compile Include="Logging\Level.cs" />
     <Compile Include="Logging\Logger.cs" />
+    <Compile Include="PerformanceMonitor\PerformanceMonitorScope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\Cryptograph.cs" />
+    <Compile Include="Task\TaskRunner.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="log4net.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

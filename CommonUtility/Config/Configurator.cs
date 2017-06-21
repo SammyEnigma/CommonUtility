@@ -1,10 +1,10 @@
-﻿using System;
+﻿using CommonUtility.Convert;
+using CommonUtility.Logging;
+using System;
 using System.Configuration;
 using System.Reflection;
-using Utility.Convert;
-using Utility.Logging;
 
-namespace Utility.Config
+namespace CommonUtility.Config
 {
     public class Configurator
     {

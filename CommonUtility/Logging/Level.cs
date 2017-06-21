@@ -1,4 +1,4 @@
-﻿namespace Utility.Logging
+﻿namespace CommonUtility.Logging
 {
     public enum Level
     {

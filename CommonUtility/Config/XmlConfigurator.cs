@@ -1,12 +1,12 @@
-﻿using System;
+﻿using CommonUtility.Logging;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Xml;
-using Utility.Logging;
 
-namespace Utility.Config
+namespace CommonUtility.Config
 {
     public class XmlConfigurator : IDisposable
     {

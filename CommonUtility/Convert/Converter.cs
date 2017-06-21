@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Utility.Convert
+namespace CommonUtility.Convert
 {
     public class Converter
     {

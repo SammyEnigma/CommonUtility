@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 
-namespace Utility.Config
+namespace CommonUtility.Config
 {
     public interface IXmlConfig
     {
