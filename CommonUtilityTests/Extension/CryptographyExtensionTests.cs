@@ -1,16 +1,17 @@
 ﻿using CommonUtility.Security;
 using CommonUtilityTests.Constant;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace CommonUtility.Extension.Tests
 {
-    [TestClass()]
+    [TestFixture()]
+    [Category(nameof(CryptographicException))]
     public class CryptographyExtensionTests
     {
-        [TestMethod()]
-        [TestProperty(TestPropertyConstant.Author, "3gbywork")]
+        [Test()]
+        [Author(TestPropertyConstant.AuthorName, TestPropertyConstant.AuthorEmail)]
         public void SetHashAlgorithmTest()
         {
             var expectedValue = MD5.Create();
@@ -19,8 +20,8 @@ namespace CommonUtility.Extension.Tests
             Assert.AreEqual(expectedValue.ToString(), actualValue.HashAlgorithm.ToString());
         }
 
-        [TestMethod()]
-        [TestProperty(TestPropertyConstant.Author, "3gbywork")]
+        [Test()]
+        [Author(TestPropertyConstant.AuthorName, TestPropertyConstant.AuthorEmail)]
         public void SetEncodingTest()
         {
             var expectedValue = Encoding.UTF8;

@@ -1,14 +1,15 @@
 ﻿using CommonUtilityTests.Constant;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 
 namespace CommonUtility.Extension.Tests
 {
-    [TestClass()]
+    [TestFixture()]
+    [Category(nameof(DayOfWeekExtension))]
     public class DayOfWeekExtensionTests
     {
-        [TestMethod()]
-        [TestProperty(TestPropertyConstant.Author, "3gbywork")]
+        [Test()]
+        [Author(TestPropertyConstant.AuthorName, TestPropertyConstant.AuthorEmail)]
         public void IsWeekendTest()
         {
             var expectedValue = false;
@@ -17,8 +18,8 @@ namespace CommonUtility.Extension.Tests
             Assert.AreEqual(expectedValue, actualValue);
         }
 
-        [TestMethod()]
-        [TestProperty(TestPropertyConstant.Author, "3gbywork")]
+        [Test()]
+        [Author(TestPropertyConstant.AuthorName, TestPropertyConstant.AuthorEmail)]
         public void IsWeekendTest1()
         {
             var expectedValue = true;

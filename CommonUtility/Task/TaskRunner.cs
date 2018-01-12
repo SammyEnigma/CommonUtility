@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using SystemTask = System.Threading.Tasks.Task;
 
 namespace CommonUtility.Task
 {
@@ -12,9 +11,9 @@ namespace CommonUtility.Task
       /// <param name="callback">异步方法执行完毕时执行的回调方法，该方法没有参数，返回类型必须是void</param>  
         public static async void RunAsync(Action function, Action callback)
         {
-            Func<SystemTask> taskFunc = () =>
+            Func<System.Threading.Tasks.Task> taskFunc = () =>
             {
-                return SystemTask.Run(() =>
+                return TaskEx.Run(() =>
                 {
                     function();
                 });
@@ -36,7 +35,7 @@ namespace CommonUtility.Task
         {
             Func<Task<TResult>> taskFunc = () =>
             {
-                return SystemTask.Run(() =>
+                return TaskEx.Run(() =>
                 {
                     return function();
                 });

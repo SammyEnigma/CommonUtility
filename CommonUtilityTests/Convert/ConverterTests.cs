@@ -1,10 +1,11 @@
 ﻿using CommonUtilityTests.Constant;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 
 namespace CommonUtility.Convert.Tests
 {
-    [TestClass()]
+    [TestFixture()]
+    [Category(nameof(Converter))]
     public class ConverterTests
     {
         /// <see cref="bool"/>
@@ -22,8 +23,8 @@ namespace CommonUtility.Convert.Tests
         /// <see cref="decimal"/>
         /// <see cref="DateTime"/>
 
-        [TestMethod()]
-        [TestProperty(TestPropertyConstant.Author, "3gbywork")]
+        [Test()]
+        [Author(TestPropertyConstant.AuthorName, TestPropertyConstant.AuthorEmail)]
         public void TryParseBoolTest()
         {
             var expectedValue = true;
@@ -31,8 +32,8 @@ namespace CommonUtility.Convert.Tests
             Assert.AreEqual(expectedValue, actualValue);
         }
 
-        [TestMethod()]
-        [TestProperty(TestPropertyConstant.Author, "3gbywork")]
+        [Test()]
+        [Author(TestPropertyConstant.AuthorName, TestPropertyConstant.AuthorEmail)]
         public void TryParseCharTest()
         {
             var expectedValue = 't';
@@ -40,8 +41,8 @@ namespace CommonUtility.Convert.Tests
             Assert.AreEqual(expectedValue, actualValue);
         }
 
-        [TestMethod()]
-        [TestProperty(TestPropertyConstant.Author, "3gbywork")]
+        [Test()]
+        [Author(TestPropertyConstant.AuthorName, TestPropertyConstant.AuthorEmail)]
         public void TryParseSbyteTest()
         {
             var expectedValue = (sbyte)-2;
@@ -49,8 +50,8 @@ namespace CommonUtility.Convert.Tests
             Assert.AreEqual(expectedValue, actualValue);
         }
 
-        [TestMethod()]
-        [TestProperty(TestPropertyConstant.Author, "3gbywork")]
+        [Test()]
+        [Author(TestPropertyConstant.AuthorName, TestPropertyConstant.AuthorEmail)]
         public void TryParseByteTest()
         {
             var expectedValue = (byte)1;
@@ -58,17 +59,17 @@ namespace CommonUtility.Convert.Tests
             Assert.AreEqual(expectedValue, actualValue);
         }
 
-        [TestMethod()]
-        [TestProperty(TestPropertyConstant.Author, "3gbywork")]
+        [Test()]
+        [Author(TestPropertyConstant.AuthorName, TestPropertyConstant.AuthorEmail)]
         public void TryParseStringTest()
         {
             var expectedValue = "true";
             var actualValue = Converter.TryParse("true", "false");
-            Assert.AreEqual(expectedValue, actualValue, true);
+            Assert.AreEqual(expectedValue, actualValue);
         }
 
-        [TestMethod()]
-        [TestProperty(TestPropertyConstant.Author, "3gbywork")]
+        [Test()]
+        [Author(TestPropertyConstant.AuthorName, TestPropertyConstant.AuthorEmail)]
         public void TryParseFloatTest()
         {
             var expectedValue = 3.5f;
@@ -76,8 +77,8 @@ namespace CommonUtility.Convert.Tests
             Assert.AreEqual(expectedValue, actualValue);
         }
 
-        [TestMethod()]
-        [TestProperty(TestPropertyConstant.Author, "3gbywork")]
+        [Test()]
+        [Author(TestPropertyConstant.AuthorName, TestPropertyConstant.AuthorEmail)]
         public void TryParseDoubleTest()
         {
             var expectedValue = 3.5;
@@ -85,8 +86,8 @@ namespace CommonUtility.Convert.Tests
             Assert.AreEqual(expectedValue, actualValue);
         }
 
-        [TestMethod()]
-        [TestProperty(TestPropertyConstant.Author, "3gbywork")]
+        [Test()]
+        [Author(TestPropertyConstant.AuthorName, TestPropertyConstant.AuthorEmail)]
         public void TryParseDecimalTest()
         {
             var expectedValue = (decimal)2.13;
@@ -94,8 +95,8 @@ namespace CommonUtility.Convert.Tests
             Assert.AreEqual(expectedValue, actualValue);
         }
 
-        [TestMethod()]
-        [TestProperty(TestPropertyConstant.Author, "3gbywork")]
+        [Test()]
+        [Author(TestPropertyConstant.AuthorName, TestPropertyConstant.AuthorEmail)]
         public void TryParseDateTimeTest()
         {
             var expectedValue = new DateTime(2017, 6, 27, 22, 40, 0);
