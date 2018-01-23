@@ -84,6 +84,7 @@
     <Compile Include="Extension\BytesExtension.cs" />
     <Compile Include="Extension\CryptographyExtension.cs" />
     <Compile Include="Extension\DayOfWeekExtension.cs" />
+    <Compile Include="Extension\IEnumerableExtension.cs" />
     <Compile Include="Extension\StringExtension.cs" />
     <Compile Include="Lock\Locker.cs" />
     <Compile Include="Logging\Level.cs" />

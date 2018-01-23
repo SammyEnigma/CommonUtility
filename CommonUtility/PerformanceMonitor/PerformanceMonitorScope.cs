@@ -12,7 +12,7 @@ namespace CommonUtility.PerformanceMonitor
 
         static private Level performanceMonitorLogLevel = Level.Info;
         /// <summary>
-        /// Log最低输出级别
+        /// Lowest output level of log
         /// </summary>
         static public Level PerformanceMonitorLogLevel
         {

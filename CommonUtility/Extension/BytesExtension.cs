@@ -6,10 +6,10 @@ namespace CommonUtility.Extension
     public static class BytesExtension
     {
         /// <summary>
-        /// 将bytes转换为string
+        /// Convert byte array to string
         /// </summary>
         /// <param name="bytes"></param>
-        /// <param name="removeHyphen">是否移除连字符</param>
+        /// <param name="removeHyphen">replace '-' with ''</param>
         /// <returns></returns>
         public static string ToString(this byte[] bytes, bool removeHyphen)
         {

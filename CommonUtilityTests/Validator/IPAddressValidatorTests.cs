@@ -9,38 +9,54 @@ namespace CommonUtility.Validator.Tests
     {
         [Test()]
         [Author(TestPropertyConstant.AuthorName, TestPropertyConstant.AuthorEmail)]
-        public void IsValidIPv4Test([Values("192.168.01.01", "000.0.1.000")] string ip)
+        public void IsValidIPv4TestT(
+            [Values("192.168.01.01", "000.0.1.000")]
+            string ip,
+            [Values(true)]
+            bool expected)
         {
-            var expected = IPAddressValidator.IsValidIPv4(ip);
+            var actual = IPAddressValidator.IsValidIPv4(ip);
 
-            Assert.AreEqual(expected, true);
+            Assert.AreEqual(expected, actual);
         }
 
         [Test()]
         [Author(TestPropertyConstant.AuthorName, TestPropertyConstant.AuthorEmail)]
-        public void IsValidIPv4Test1([Values("256.168.01.01", "0256.168.01.01", "192.168.01.01.1", "01.01.1")] string ip)
+        public void IsValidIPv4TestF(
+            [Values("256.168.01.01", "0256.168.01.01", "192.168.01.01.1", "01.01.1")]
+            string ip,
+            [Values(false)]
+            bool expected)
         {
-            var expected = IPAddressValidator.IsValidIPv4(ip);
+            var actual = IPAddressValidator.IsValidIPv4(ip);
 
-            Assert.AreEqual(expected, false);
+            Assert.AreEqual(expected, actual);
         }
 
         [Test()]
         [Author(TestPropertyConstant.AuthorName, TestPropertyConstant.AuthorEmail)]
-        public void IsValidPortTest([Values("65535", "0")] string port)
+        public void IsValidPortTestT(
+            [Values("65535", "0")]
+            string port,
+            [Values(true)]
+            bool expected)
         {
-            var expected = IPAddressValidator.IsValidPort(port);
+            var actual = IPAddressValidator.IsValidPort(port);
 
-            Assert.AreEqual(expected, true);
+            Assert.AreEqual(expected, actual);
         }
 
         [Test()]
         [Author(TestPropertyConstant.AuthorName, TestPropertyConstant.AuthorEmail)]
-        public void IsValidPortTest1([Values("65538", "-1")] string port)
+        public void IsValidPortTestF(
+            [Values("65538", "-1")]
+            string port,
+            [Values(false)]
+            bool expected)
         {
-            var expected = IPAddressValidator.IsValidPort(port);
+            var actual = IPAddressValidator.IsValidPort(port);
 
-            Assert.AreEqual(expected, false);
+            Assert.AreEqual(expected, actual);
         }
     }
 }

@@ -4,42 +4,46 @@ using System.Reflection;
 
 namespace CommonUtility.Convert
 {
+
     public class Converter
     {
+        #region Supported types
+        // <see cref="bool"/>
+        // <see cref="char"/>
+        // <see cref="sbyte"/>
+        // <see cref="byte"/>
+        // <see cref="short"/>
+        // <see cref="ushort"/>
+        // <see cref="int"/>
+        // <see cref="uint"/>
+        // <see cref="long"/>
+        // <see cref="ulong"/>
+        // <see cref="float"/>
+        // <see cref="double"/>
+        // <see cref="decimal"/>
+        // <see cref="DateTime"/>
+        #endregion
+
         /// <summary>
-        /// 将字符串转换为指定类型的值，仅支持基本类型转换
+        /// Converts a string to a value of the specified type,
+        /// supporting only basic type conversions
         /// </summary>
-        /// <typeparam name="T">
-        /// 支持的类型：
-        /// <see cref="bool"/>
-        /// <see cref="char"/>
-        /// <see cref="sbyte"/>
-        /// <see cref="byte"/>
-        /// <see cref="short"/>
-        /// <see cref="ushort"/>
-        /// <see cref="int"/>
-        /// <see cref="uint"/>
-        /// <see cref="long"/>
-        /// <see cref="ulong"/>
-        /// <see cref="float"/>
-        /// <see cref="double"/>
-        /// <see cref="decimal"/>
-        /// <see cref="DateTime"/>
-        /// </typeparam>
-        /// <param name="value">需要转换的值</param>
-        /// <returns>转换后的值或默认值</returns>
+        /// <typeparam name="T">Supported types</typeparam>
+        /// <param name="value">Value that needs to be converted</param>
+        /// <returns>Converted or default values</returns>
         public static T TryParse<T>(string value)
         {
             return TryParse(value, default(T));
         }
 
         /// <summary>
-        /// 将字符串转换为指定类型的值，仅支持基本类型转换
+        /// Converts a string to a value of the specified type,
+        /// supporting only basic type conversions
         /// </summary>
-        /// <typeparam name="T">想要得到的基本类型</typeparam>
-        /// <param name="value">需要转换的值</param>
-        /// <param name="defaultValue"></param>
-        /// <returns>转换后的值或给定默认值</returns>
+        /// <typeparam name="T">Supported types</typeparam>
+        /// <param name="value">Value that needs to be converted</param>
+        /// <param name="defaultValue">Default value</param>
+        /// <returns>Converted or default values</returns>
         public static T TryParse<T>(string value, T defaultValue)
         {
             if (value == null)
@@ -47,12 +51,12 @@ namespace CommonUtility.Convert
                 return defaultValue;
             }
             Type type = typeof(T);
-            // 泛型Nullable判断
+            // IsGenericType?
             if (type.IsGenericType)
             {
                 type = type.GetGenericArguments()[0];
             }
-            // string object类型没有TryParse方法，直接返回value
+            // For string or object types,just return the value
             var noTryParseTypes = new string[] { "string", "object" };
             if (noTryParseTypes.Any(typeName => type.Name.ToLower().Equals(typeName)))
             {
@@ -63,6 +67,7 @@ namespace CommonUtility.Convert
                 return (T)(object)value;
             }
 
+            // Call TryParse convert the value to the specified type
             var TryParse = type.GetMethod("TryParse", BindingFlags.Static | BindingFlags.Public,
                 Type.DefaultBinder, new Type[] { typeof(string), type.MakeByRefType() },
                 new ParameterModifier[] { new ParameterModifier(2) });

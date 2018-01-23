@@ -66,6 +66,7 @@
     <Compile Include="Extension\BytesExtensionTests.cs" />
     <Compile Include="Extension\CryptographyExtensionTests.cs" />
     <Compile Include="Extension\DayOfWeekExtensionTests.cs" />
+    <Compile Include="Extension\IEnumerableExtensionTests.cs" />
     <Compile Include="Extension\StringExtensionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validator\IPAddressValidatorTests.cs" />
