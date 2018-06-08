@@ -12,14 +12,11 @@ namespace CommonUtility.Task
         /// <param name="callback">The callback method that executes when the asynchronous method finishes executing, the method has no arguments, and the return type must be void</param>
         public static async void RunAsync(Action function, Action callback)
         {
-            Func<System.Threading.Tasks.Task> taskFunc = () =>
+            await TaskEx.Run(() =>
             {
-                return TaskEx.Run(() =>
-                {
-                    function();
-                });
-            };
-            await taskFunc();
+                function();
+            });
+
             if (callback != null)
             {
                 callback.Invoke();
@@ -34,16 +31,14 @@ namespace CommonUtility.Task
         /// <param name="callback">The callback method that executes when the asynchronous method finishes executing, the method parameter is TResult, and the return type must be void</param>
         public static async void RunAsync<TResult>(Func<TResult> function, Action<TResult> callback)
         {
-            Func<Task<TResult>> taskFunc = () =>
-            {
-                return TaskEx.Run(() =>
-                {
-                    return function();
-                });
-            };
+            var result = await TaskEx.Run(() =>
+             {
+                 return function();
+             });
+
             if (callback != null)
             {
-                callback.Invoke(await taskFunc());
+                callback.Invoke(result);
             }
         }
     }

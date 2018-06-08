@@ -69,6 +69,7 @@
     <Compile Include="Extension\IEnumerableExtensionTests.cs" />
     <Compile Include="Extension\StringExtensionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rand\RandomExTests.cs" />
     <Compile Include="Validator\IPAddressValidatorTests.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,7 @@ namespace CommonUtility.Lock
 {
     public class Locker
     {
-        static object mLockObj = new object();
+        static readonly object mLockObj = new object();
         static Dictionary<string, object> mLockers = new Dictionary<string, object>();
 
         public static object GetLocker(string name)
