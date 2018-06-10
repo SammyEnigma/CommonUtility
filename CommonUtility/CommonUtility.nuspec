@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>net.3gbywork.CommonUtility</id>
+    <id>Net.Liap.CommonUtility</id>
     <version>$version$</version>
     <title>CommonUtility for c#</title>
     <authors>$author$</authors>
@@ -10,8 +10,8 @@
     <projectUrl>https://github.com/3gbywork/CommonUtility</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
-    <copyright>Copyright 2017</copyright>
+    <releaseNotes>add nlog, RandomEx, HttpWebRequestClient etc.</releaseNotes>
+    <copyright>Copyright 2017-2018</copyright>
     <tags>C# Utility</tags>
   </metadata>
 </package>

@@ -1,4 +1,5 @@
-﻿using CommonUtilityTests.Constant;
+﻿using CommonUtility.Extension;
+using CommonUtilityTests.Constant;
 using NUnit.Framework;
 using System;
 using System.Text;
@@ -169,6 +170,16 @@ namespace CommonUtility.Extension.Tests
         {
             var expectedValue = testString;
             var actualValue = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ~!@#$%^&amp;*()_+-=\\{}[]: &quot;;&#39;&lt;&gt;?,./".HtmlDecode();
+
+            Assert.AreEqual(expectedValue, actualValue);
+        }
+
+        [Test()]
+        [Author(TestPropertyConstant.AuthorName, TestPropertyConstant.AuthorEmail)]
+        public void CreateSecureStringTest()
+        {
+            var expectedValue = testString;
+            var actualValue = testString.CreateSecureString().CreateString();
 
             Assert.AreEqual(expectedValue, actualValue);
         }

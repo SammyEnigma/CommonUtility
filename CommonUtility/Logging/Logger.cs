@@ -1,23 +1,25 @@
-﻿using log4net;
-using log4net.Config;
-using System;
-using System.Reflection;
+﻿using System;
+using System.Globalization;
 
 namespace CommonUtility.Logging
 {
+    /// <summary>
+    /// Recommend Use LogFactory
+    /// </summary>
     public class Logger
     {
-        private ILog mlogger = null;
-        private string mName = null;
-
-        private Logger()
+        static LogFactory logFactory;
+        static Logger()
         {
-            XmlConfigurator.ConfigureAndWatch(new System.IO.FileInfo("log4net.config"));
+            logFactory = new LogFactory();
+            logFactory.AddProvider(NLogProvider.Instance);
         }
-        public Logger(string name) : this()
+
+        private ILogger mlogger = null;
+
+        public Logger(string name)
         {
-            this.mName = name;
-            mlogger = LogManager.GetLogger(Assembly.GetCallingAssembly(), name);
+            mlogger = logFactory.CreateLogger(name);
         }
 
         public Logger(Type type) : this(type.FullName)
@@ -26,74 +28,70 @@ namespace CommonUtility.Logging
 
         public void Debug(string format, params object[] args)
         {
-            mlogger.DebugFormat(format, args);
+            Debug(CultureInfo.InvariantCulture, format, args);
         }
 
         public void Debug(IFormatProvider provider, string format, params object[] args)
         {
-            mlogger.DebugFormat(provider, format, args);
+            mlogger.Debug(null, provider, format, args);
         }
 
         public void Error(string format, params object[] args)
         {
-            mlogger.ErrorFormat(format, args);
+            Error(CultureInfo.InvariantCulture, format, args);
         }
 
         public void Error(IFormatProvider provider, string format, params object[] args)
         {
-            mlogger.ErrorFormat(provider, format, args);
+            mlogger.Error(null, provider, format, args);
         }
 
         public void Fatal(string format, params object[] args)
         {
-            mlogger.FatalFormat(format, args);
+            Fatal(CultureInfo.InvariantCulture, format, args);
         }
 
         public void Fatal(IFormatProvider provider, string format, params object[] args)
         {
-            mlogger.FatalFormat(provider, format, args);
+            mlogger.Fatal(null, provider, format, args);
         }
 
         public void Info(string format, params object[] args)
         {
-            mlogger.InfoFormat(format, args);
+            Info(CultureInfo.InvariantCulture, format, args);
         }
 
         public void Info(IFormatProvider provider, string format, params object[] args)
         {
-            mlogger.InfoFormat(provider, format, args);
+            mlogger.Info(null, provider, format, args);
         }
 
         public void Warn(string format, params object[] args)
         {
-            mlogger.WarnFormat(format, args);
+            Warn(CultureInfo.InvariantCulture, format, args);
         }
 
         public void Warn(IFormatProvider provider, string format, params object[] args)
         {
-            mlogger.WarnFormat(provider, format, args);
+            mlogger.Warn(null, provider, format, args);
         }
 
-        public void Log(Level level, object message, Exception exception=null)
+#pragma warning disable CS0618 // 类型或成员已过时
+        public void Log<T>(Level level, T message, Exception exception = null)
+#pragma warning restore CS0618 // 类型或成员已过时
         {
-            switch (level)
+            Log(level.ToLogLevel(), message, exception);
+        }
+
+        public void Log<T>(LogLevel level, T message, Exception exception = null)
+        {
+            if (exception == null)
             {
-                case Level.Debug:
-                    mlogger.Debug(message, exception);
-                    break;
-                case Level.Error:
-                    mlogger.Error(message, exception);
-                    break;
-                case Level.Fatal:
-                    mlogger.Fatal(message, exception);
-                    break;
-                default:
-                case Level.Info:
-                    mlogger.Info(message, exception);
-                    break;
-                case Level.Warn:
-                    mlogger.Warn(message, exception);
-                    break;
+                mlogger.Log(level, message);
+            }
+            else
+            {
+                mlogger.Log(level, exception, CultureInfo.InvariantCulture, message.ToString());
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using CommonUtility.Security;
 using System;
+using System.Security;
 using System.Text;
 using System.Web;
 
@@ -122,5 +123,21 @@ namespace CommonUtility.Extension
             return HttpUtility.HtmlDecode(value);
         }
         #endregion
+
+        public unsafe static SecureString CreateSecureString(this string plainString)
+        {
+            if (string.IsNullOrEmpty(plainString))
+            {
+                return new SecureString();
+            }
+            SecureString secureString;
+            fixed (char* ptr = plainString)
+            {
+                char* value = ptr;
+                secureString = new SecureString(value, plainString.Length);
+                secureString.MakeReadOnly();
+            }
+            return secureString;
+        }
     }
 }
