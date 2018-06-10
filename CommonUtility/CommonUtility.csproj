@@ -101,6 +101,7 @@
     <EmbeddedResource Include="log4net.config" />
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="ToDo.md" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
