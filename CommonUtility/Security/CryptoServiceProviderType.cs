@@ -12,6 +12,6 @@
         HMACSHA1,
         HMACSHA256,
         HMACSHA384,
-        HMACSHA512,
+        HMACSHA512
     }
 }

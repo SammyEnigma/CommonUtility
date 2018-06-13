@@ -1,20 +1,18 @@
-﻿using CommonUtility.Security;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
+using CommonUtility.Security;
 
 namespace CommonUtility.Extension
 {
     /// <summary>
-    /// <see cref="CommonUtility.Security.Cryptography"/>
+    ///     <see cref="CommonUtility.Security.Cryptography" />
     /// </summary>
     public static class CryptographyExtension
     {
-        public static Cryptography SetHashAlgorithm(this Cryptography cryptography, CryptoServiceProviderType providerType)
+        public static Cryptography SetHashAlgorithm(this Cryptography cryptography,
+            CryptoServiceProviderType providerType)
         {
-            if (cryptography.HashAlgorithm != null)
-            {
-                cryptography.HashAlgorithm.Clear();
-            }
+            cryptography.HashAlgorithm?.Clear();
 
             switch (providerType)
             {
@@ -35,19 +33,19 @@ namespace CommonUtility.Extension
                     cryptography.HashAlgorithm = SHA512.Create();
                     break;
                 case CryptoServiceProviderType.HMACMD5:
-                    cryptography.HashAlgorithm = HMACMD5.Create();
+                    cryptography.HashAlgorithm = HMAC.Create();
                     break;
                 case CryptoServiceProviderType.HMACSHA1:
-                    cryptography.HashAlgorithm = HMACSHA1.Create();
+                    cryptography.HashAlgorithm = HMAC.Create();
                     break;
                 case CryptoServiceProviderType.HMACSHA256:
-                    cryptography.HashAlgorithm = HMACSHA256.Create();
+                    cryptography.HashAlgorithm = HMAC.Create();
                     break;
                 case CryptoServiceProviderType.HMACSHA384:
-                    cryptography.HashAlgorithm = HMACSHA384.Create();
+                    cryptography.HashAlgorithm = HMAC.Create();
                     break;
                 case CryptoServiceProviderType.HMACSHA512:
-                    cryptography.HashAlgorithm = HMACSHA512.Create();
+                    cryptography.HashAlgorithm = HMAC.Create();
                     break;
             }
 

@@ -1,5 +1,4 @@
-﻿
-using L4nLevel = log4net.Core.Level;
+﻿using L4nLevel = log4net.Core.Level;
 
 namespace CommonUtility.Logging
 {

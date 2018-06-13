@@ -1,11 +1,11 @@
-﻿using Microsoft.Build.Execution;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Microsoft.Build.Execution;
 
 namespace CommonUtility.Extension
 {
-    static public class BuildSubmissionExtension
+    public static class BuildSubmissionExtension
     {
-        static public Task<BuildResult> ExecuteAsync(this BuildSubmission buildSubmission)
+        public static Task<BuildResult> ExecuteAsync(this BuildSubmission buildSubmission)
         {
             var taskCompletionSource = new TaskCompletionSource<BuildResult>();
             buildSubmission.ExecuteAsync(BuildSubmissionCompleteCallbackFunction, taskCompletionSource);
@@ -14,7 +14,7 @@ namespace CommonUtility.Extension
 
         private static void BuildSubmissionCompleteCallbackFunction(BuildSubmission submission)
         {
-            var taskCompletionSource = (TaskCompletionSource<BuildResult>)submission.AsyncContext;
+            var taskCompletionSource = (TaskCompletionSource<BuildResult>) submission.AsyncContext;
             taskCompletionSource.SetResult(submission.BuildResult);
         }
     }

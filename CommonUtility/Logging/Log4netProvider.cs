@@ -1,7 +1,8 @@
-﻿using log4net.Config;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.IO;
+using log4net;
+using log4net.Config;
 
 namespace CommonUtility.Logging
 {
@@ -9,8 +10,8 @@ namespace CommonUtility.Logging
     {
         public static string ConfigFile = "log4net.config";
 
-        private static Lazy<Log4netProvider> provider = new Lazy<Log4netProvider>(delegate { return new Log4netProvider(); }, true);
-        public static ILoggerProvider Instance => provider.Value;
+        private static readonly Lazy<Log4netProvider> Provider =
+            new Lazy<Log4netProvider>(() => new Log4netProvider(), true);
 
         private readonly ConcurrentDictionary<string, ILogger> _loggers = new ConcurrentDictionary<string, ILogger>();
 
@@ -19,9 +20,11 @@ namespace CommonUtility.Logging
             XmlConfigurator.ConfigureAndWatch(new FileInfo(ConfigFile));
         }
 
+        public static ILoggerProvider Instance => Provider.Value;
+
         public ILogger CreateLogger(string categoryName)
         {
-            return _loggers.GetOrAdd(categoryName, new Log4netLogger(log4net.LogManager.GetLogger(categoryName)));
+            return _loggers.GetOrAdd(categoryName, new Log4netLogger(LogManager.GetLogger(categoryName)));
         }
 
         public void Dispose()

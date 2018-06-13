@@ -6,7 +6,7 @@ namespace CommonUtility.Extension
     public static class BytesExtension
     {
         /// <summary>
-        /// Convert byte array to string
+        ///     Convert byte array to string
         /// </summary>
         /// <param name="bytes"></param>
         /// <param name="removeHyphen">replace '-' with ''</param>
@@ -32,6 +32,5 @@ namespace CommonUtility.Extension
             var value = bytes.ToBase64String();
             return value.TrimEnd('=').Replace('+', '-').Replace('/', '_');
         }
-
     }
 }

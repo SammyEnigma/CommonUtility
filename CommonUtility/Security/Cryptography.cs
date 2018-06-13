@@ -1,38 +1,25 @@
-﻿using CommonUtility.Extension;
-using System.IO;
+﻿using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using CommonUtility.Extension;
 
 namespace CommonUtility.Security
 {
     public class Cryptography
     {
-        private HashAlgorithm hashAlgorithm;
+        private Encoding _encoding;
+        private HashAlgorithm _hashAlgorithm;
+
         public HashAlgorithm HashAlgorithm
         {
-            get
-            {
-                if (hashAlgorithm == null)
-                {
-                    hashAlgorithm = MD5.Create();
-                }
-                return hashAlgorithm;
-            }
-            set { hashAlgorithm = value; }
+            get => _hashAlgorithm ?? (_hashAlgorithm = MD5.Create());
+            set => _hashAlgorithm = value;
         }
 
-        private Encoding encoding;
         public Encoding Encoding
         {
-            get
-            {
-                if (encoding == null)
-                {
-                    encoding = Encoding.UTF8;
-                }
-                return encoding;
-            }
-            set { encoding = value; }
+            get => _encoding ?? (_encoding = Encoding.UTF8);
+            set => _encoding = value;
         }
 
         public byte[] ComputeHash(string value)
@@ -64,6 +51,5 @@ namespace CommonUtility.Security
         {
             return value.UrlDecode(Encoding);
         }
-
     }
 }

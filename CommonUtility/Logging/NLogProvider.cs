@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using NLog;
 
 namespace CommonUtility.Logging
 {
@@ -7,25 +8,27 @@ namespace CommonUtility.Logging
     {
         public static string ConfigFile = "nlog.config";
 
-        private static Lazy<NLogProvider> provider = new Lazy<NLogProvider>(delegate { return new NLogProvider(); }, true);
-        public static ILoggerProvider Instance => provider.Value;
+        private static readonly Lazy<NLogProvider> Provider =
+            new Lazy<NLogProvider>(() => new NLogProvider(), true);
 
         private readonly ConcurrentDictionary<string, ILogger> _loggers = new ConcurrentDictionary<string, ILogger>();
 
         private NLogProvider()
         {
-            NLog.LogManager.LoadConfiguration(ConfigFile);
+            LogManager.LoadConfiguration(ConfigFile);
         }
+
+        public static ILoggerProvider Instance => Provider.Value;
 
         public ILogger CreateLogger(string categoryName)
         {
-            return _loggers.GetOrAdd(categoryName, new NLogLogger(NLog.LogManager.GetLogger(categoryName)));
+            return _loggers.GetOrAdd(categoryName, new NLogLogger(LogManager.GetLogger(categoryName)));
         }
 
         public void Dispose()
         {
             _loggers.Clear();
-            NLog.LogManager.Shutdown();
+            LogManager.Shutdown();
         }
     }
 }

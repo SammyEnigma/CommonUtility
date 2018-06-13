@@ -1,5 +1,4 @@
-﻿
-using NLogLogLevel = NLog.LogLevel;
+﻿using NLogLogLevel = NLog.LogLevel;
 
 namespace CommonUtility.Logging
 {

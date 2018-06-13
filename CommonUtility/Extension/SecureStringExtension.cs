@@ -8,11 +8,8 @@ namespace CommonUtility.Extension
     {
         public static string CreateString(this SecureString secureString)
         {
-            IntPtr intPtr = IntPtr.Zero;
-            if (secureString == null || secureString.Length == 0)
-            {
-                return string.Empty;
-            }
+            var intPtr = IntPtr.Zero;
+            if (secureString == null || secureString.Length == 0) return string.Empty;
             string result;
             try
             {
@@ -21,11 +18,9 @@ namespace CommonUtility.Extension
             }
             finally
             {
-                if (intPtr != IntPtr.Zero)
-                {
-                    Marshal.ZeroFreeBSTR(intPtr);
-                }
+                if (intPtr != IntPtr.Zero) Marshal.ZeroFreeBSTR(intPtr);
             }
+
             return result;
         }
     }

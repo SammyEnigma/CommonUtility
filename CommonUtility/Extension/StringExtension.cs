@@ -1,14 +1,29 @@
-﻿using CommonUtility.Security;
-using System;
+﻿using System;
 using System.Security;
 using System.Text;
 using System.Web;
+using CommonUtility.Security;
 
 namespace CommonUtility.Extension
 {
     public static class StringExtension
     {
+        public static unsafe SecureString CreateSecureString(this string plainString)
+        {
+            if (string.IsNullOrEmpty(plainString)) return new SecureString();
+            SecureString secureString;
+            fixed (char* ptr = plainString)
+            {
+                var value = ptr;
+                secureString = new SecureString(value, plainString.Length);
+                secureString.MakeReadOnly();
+            }
+
+            return secureString;
+        }
+
         #region Encoding
+
         public static string ToBase64String(this string value, Encoding encoding)
         {
             return encoding.GetBytes(value).ToBase64String();
@@ -42,11 +57,8 @@ namespace CommonUtility.Extension
         public static string ToByteArray(this string value, Encoding encoding, string format)
         {
             var bytes = encoding.GetBytes(value);
-            StringBuilder result = new StringBuilder();
-            foreach (var item in bytes)
-            {
-                result.AppendFormat(format, item);
-            }
+            var result = new StringBuilder();
+            foreach (var item in bytes) result.AppendFormat(format, item);
             return result.ToString();
         }
 
@@ -67,11 +79,14 @@ namespace CommonUtility.Extension
 
         public static Guid ToGuid(this string value, Encoding encoding)
         {
-            return new Guid(new Cryptography().SetHashAlgorithm(CryptoServiceProviderType.MD5).SetEncoding(encoding).ComputeHash(value).ToString(true));
+            return new Guid(new Cryptography().SetHashAlgorithm(CryptoServiceProviderType.MD5).SetEncoding(encoding)
+                .ComputeHash(value).ToString(true));
         }
+
         #endregion
 
         #region Decoding
+
         public static byte[] FromBase64String(this string value)
         {
             return System.Convert.FromBase64String(value);
@@ -104,16 +119,10 @@ namespace CommonUtility.Extension
 
         public static string HexDecode(this string value, Encoding encoding)
         {
-            if (value.Length % 2 == 1)
-            {
-                throw new ArgumentException("Invalid length for a hex encode string.");
-            }
+            if (value.Length % 2 == 1) throw new ArgumentException("Invalid length for a hex encode string.");
             var length = value.Length / 2;
-            byte[] result = new byte[length];
-            for (int i = 0; i < length; i++)
-            {
-                result[i] = System.Convert.ToByte(value.Substring(i * 2, 2), 16);
-            }
+            var result = new byte[length];
+            for (var i = 0; i < length; i++) result[i] = System.Convert.ToByte(value.Substring(i * 2, 2), 16);
 
             return result.ToString(encoding);
         }
@@ -122,22 +131,7 @@ namespace CommonUtility.Extension
         {
             return HttpUtility.HtmlDecode(value);
         }
-        #endregion
 
-        public unsafe static SecureString CreateSecureString(this string plainString)
-        {
-            if (string.IsNullOrEmpty(plainString))
-            {
-                return new SecureString();
-            }
-            SecureString secureString;
-            fixed (char* ptr = plainString)
-            {
-                char* value = ptr;
-                secureString = new SecureString(value, plainString.Length);
-                secureString.MakeReadOnly();
-            }
-            return secureString;
-        }
+        #endregion
     }
 }
