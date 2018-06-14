@@ -79,9 +79,19 @@ namespace CommonUtility.Extension
 
         public static Guid ToGuid(this string value, Encoding encoding)
         {
+            return new Guid(value.ToHashString(encoding));
+        }
+
+        public static string ToHashString(this string value)
+        {
+            return value.ToHashString(Encoding.UTF8);
+        }
+
+        public static string ToHashString(this string value, Encoding encoding)
+        {
             using (var crypto = Cryptography.Create())
             {
-                return new Guid(crypto.SetEncoding(encoding).ComputeHash(value).ToString(true));
+                return crypto.SetEncoding(encoding).ComputeHash(value).ToString(true);
             }
         }
 
