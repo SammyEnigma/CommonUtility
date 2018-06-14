@@ -2,18 +2,11 @@
 
 namespace CommonUtility.Extension
 {
-    static public class DayOfWeekExtension
+    public static class DayOfWeekExtension
     {
-        static public bool IsWeekend(this DayOfWeek dayOfWeek)
+        public static bool IsWeekend(this DayOfWeek dayOfWeek)
         {
-            if (dayOfWeek == DayOfWeek.Saturday || dayOfWeek == DayOfWeek.Sunday)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return dayOfWeek == DayOfWeek.Saturday || dayOfWeek == DayOfWeek.Sunday;
         }
     }
 }

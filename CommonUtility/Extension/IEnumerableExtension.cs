@@ -6,7 +6,7 @@ namespace CommonUtility.Extension
     public static class IEnumerableExtension
     {
         /// <summary>
-        /// Divides a list into a given number of groups
+        ///     Divides a list into a given number of groups
         /// </summary>
         /// <typeparam name="T">Any type</typeparam>
         /// <param name="list">Source list</param>
@@ -15,15 +15,13 @@ namespace CommonUtility.Extension
         public static IList<IEnumerable<T>> Split<T>(this IEnumerable<T> list, int groupCount)
         {
             var group = new List<IEnumerable<T>>();
-            var total = list.Count();
+            var enumerable = list.ToList();
+            var total = enumerable.Count();
 
             if (groupCount < 1) groupCount = 1;
             var groupItemCount = total / groupCount + (total % groupCount == 0 ? 0 : 1);
 
-            for (int i = 0; i < groupCount; i++)
-            {
-                group.Add(list.Skip(i * groupItemCount).Take(groupItemCount));
-            }
+            for (var i = 0; i < groupCount; i++) group.Add(enumerable.Skip(i * groupItemCount).Take(groupItemCount));
 
             return group;
         }

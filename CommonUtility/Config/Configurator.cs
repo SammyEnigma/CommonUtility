@@ -1,34 +1,54 @@
-﻿using CommonUtility.Convert;
-using CommonUtility.Logging;
-using System;
+﻿using System;
 using System.Configuration;
 using System.Reflection;
+using CommonUtility.Convert;
+using CommonUtility.Logging;
 
 namespace CommonUtility.Config
 {
     public class Configurator
     {
-        static Logger mlogger = new Logger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly Logger Logger = new Logger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public static T GetConfiguration<T>(string key, T defaultValue)
         {
-            return GetConfiguration<T>(ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None), key, defaultValue);
+            return GetConfiguration(ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None), key,
+                defaultValue);
         }
 
         public static T GetConfiguration<T>(Configuration configuration, string key, T defaultValue)
         {
-            T result = defaultValue;
+            var result = defaultValue;
             try
             {
-                string value = configuration.AppSettings.Settings[key].Value;
+                var value = configuration.AppSettings.Settings[key].Value;
                 result = Converter.TryParse(value, defaultValue);
             }
             catch (Exception ex)
             {
-                mlogger.Warn($"Get {key} configuration failed & use default value {defaultValue}, error {ex}");
+                Logger.Error("Get {0} configuration failed & use default value {1}, error {2}", key, defaultValue, ex);
             }
 
             return result;
+        }
+
+        public static void SetConfiguration(string key, string value)
+        {
+            SetConfiguration(ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None), key, value);
+        }
+
+        public static void SetConfiguration(Configuration configuration, string key, string value)
+        {
+            try
+            {
+                configuration.AppSettings.Settings.Remove(key);
+                configuration.AppSettings.Settings.Add(key, value);
+                configuration.Save(ConfigurationSaveMode.Minimal);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Set {0} configuration with {1} failed, error {2}", key, value, ex);
+            }
         }
     }
 }

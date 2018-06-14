@@ -1,36 +1,20 @@
-﻿using CommonUtility.Logging;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Reflection;
+using CommonUtility.Logging;
 
 namespace CommonUtility.PerformanceMonitor
 {
     public class PerformanceMonitorScope : IDisposable
     {
-        static private readonly Logger mLogger = new Logger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly Logger Logger = new Logger(MethodBase.GetCurrentMethod().DeclaringType);
 
 
-        static private LogLevel performanceMonitorLogLevel = LogLevel.Information;
-        /// <summary>
-        /// Lowest output level of log
-        /// </summary>
-#pragma warning disable CS0618 // 类型或成员已过时
-        static public Level PerformanceMonitorLogLevel
-#pragma warning restore CS0618 // 类型或成员已过时
-        {
-            get { return performanceMonitorLogLevel.ToLevel(); }
-            set { performanceMonitorLogLevel = value.ToLogLevel(); }
-        }
-        static public LogLevel LowestPerformanceMonitorLogLevel
-        {
-            get { return performanceMonitorLogLevel; }
-            set { performanceMonitorLogLevel = value; }
-        }
+        private readonly string _info;
 
-        private LogLevel mLogLevel;
-        private string mInfo;
+        private readonly LogLevel _logLevel;
 
-        private Stopwatch mStopwatch;
+        private Stopwatch _stopwatch;
 
         public PerformanceMonitorScope(string info) : this(LogLevel.Information, info)
         {
@@ -44,22 +28,33 @@ namespace CommonUtility.PerformanceMonitor
 
         public PerformanceMonitorScope(LogLevel level, string info)
         {
-            this.mLogLevel = level;
-            this.mInfo = info;
+            _logLevel = level;
+            _info = info;
 
-            if (level > LowestPerformanceMonitorLogLevel)
-            {
-                this.mStopwatch = Stopwatch.StartNew();
-            }
+            if (level > LowestPerformanceMonitorLogLevel) _stopwatch = Stopwatch.StartNew();
         }
+
+        /// <summary>
+        ///     Lowest output level of log
+        /// </summary>
+#pragma warning disable CS0618 // 类型或成员已过时
+        public static Level PerformanceMonitorLogLevel
+#pragma warning restore CS0618 // 类型或成员已过时
+        {
+            get { return LowestPerformanceMonitorLogLevel.ToLevel(); }
+            set { LowestPerformanceMonitorLogLevel = value.ToLogLevel(); }
+        }
+
+        public static LogLevel LowestPerformanceMonitorLogLevel { get; set; } = LogLevel.Information;
 
         public void Dispose()
         {
-            if (this.mStopwatch != null)
+            if (_stopwatch != null)
             {
-                this.mStopwatch.Stop();
-                mLogger.Log(mLogLevel, string.Format("Operation: {0}, Execution time: {1} ms", mInfo, this.mStopwatch.ElapsedMilliseconds));
-                this.mStopwatch = null;
+                _stopwatch.Stop();
+                Logger.Log(_logLevel,
+                    string.Format("Operation: {0}, Execution time: {1} ms", _info, _stopwatch.ElapsedMilliseconds));
+                _stopwatch = null;
             }
         }
     }

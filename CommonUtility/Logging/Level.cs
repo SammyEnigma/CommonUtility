@@ -11,6 +11,6 @@ namespace CommonUtility.Logging
         Info = LogLevel.Information,
         Error = LogLevel.Error,
         Fatal = LogLevel.Critical,
-        None = LogLevel.None,
+        None = LogLevel.None
     }
 }

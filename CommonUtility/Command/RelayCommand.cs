@@ -6,41 +6,55 @@ namespace CommonUtility.Command
 {
     public class RelayCommand : IRelayCommand
     {
-        private readonly Action action;
-        private readonly Func<bool> canExecute;
-
-        protected RelayCommand()
-        {
-        }
+        private readonly Action _action;
+        private readonly Func<bool> _canExecute;
 
         public RelayCommand(Action execute)
         {
-            this.action = execute;
+            _action = execute;
         }
 
         public RelayCommand(Action execute, Func<bool> canExecute)
             : this(execute)
         {
-            this.canExecute = canExecute;
+            this._canExecute = canExecute;
+        }
+
+        protected RelayCommand()
+        {
         }
 
         #region IRelayCommand Members
 
-        [DebuggerStepThrough]
-        public virtual bool CanExecute(object parameter)
-        {
-            return this.canExecute == null || this.canExecute();
-        }
-
         public event EventHandler CanExecuteChanged
         {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
+            add => CommandManager.RequerySuggested += value;
+            remove => CommandManager.RequerySuggested -= value;
         }
 
         public event EventHandler Executed;
 
         public event EventHandler Executing;
+
+        [DebuggerStepThrough]
+        public virtual bool CanExecute(object parameter)
+        {
+            return _canExecute == null || _canExecute();
+        }
+
+        public void Execute(object parameter)
+        {
+            OnExecuting();
+
+            InvokeAction(parameter);
+
+            OnExecuted();
+        }
+
+        protected virtual void InvokeAction(object parameter)
+        {
+            _action();
+        }
 
         protected void OnExecuted()
         {
@@ -52,41 +66,23 @@ namespace CommonUtility.Command
             Executing?.Invoke(this, null);
         }
 
-        public void Execute(object parameter)
-        {
-            this.OnExecuting();
-
-            this.InvokeAction(parameter);
-
-            this.OnExecuted();
-        }
-
-        protected virtual void InvokeAction(object parameter)
-        {
-            this.action();
-        }
-
-        #endregion // IRelayCommand Members
+        #endregion IRelayCommand Members
     }
 
     /// <summary>
-    /// A command whose sole purpose is to 
-    /// relay its functionality to other
-    /// objects by invoking delegates. The
-    /// default return value for the CanExecute
-    /// method is 'true'.
+    ///     A command whose sole purpose is to
+    ///     relay its functionality to other
+    ///     objects by invoking delegates. The
+    ///     default return value for the CanExecute
+    ///     method is 'true'.
     /// </summary>
     public class RelayCommand<T> : RelayCommand
     {
-        private readonly Action<T> action;
-        private readonly Func<T, bool> canExecute;
-
-        protected RelayCommand()
-        {
-        }
+        private readonly Action<T> _action;
+        private readonly Func<T, bool> _canExecute;
 
         /// <summary>
-        /// Creates a new command that can always execute.
+        ///     Creates a new command that can always execute.
         /// </summary>
         /// <param name="action">The execution logic.</param>
         public RelayCommand(Action<T> action)
@@ -95,32 +91,39 @@ namespace CommonUtility.Command
         }
 
         /// <summary>
-        /// Creates a new command.
+        ///     Creates a new command.
         /// </summary>
         /// <param name="action">The execution logic.</param>
         /// <param name="canExecute">The execution status logic.</param>
         public RelayCommand(Action<T> action, Func<T, bool> canExecute)
         {
-            this.action = action;
-            this.canExecute = canExecute;
+            this._action = action;
+            this._canExecute = canExecute;
+        }
+
+        protected RelayCommand()
+        {
         }
 
         /// <summary>
-        /// Defines the method that determines whether the command can execute in its current state.
+        ///     Defines the method that determines whether the command can execute in its current state.
         /// </summary>
         /// <returns>
-        /// true if this command can be executed; otherwise, false.
+        ///     true if this command can be executed; otherwise, false.
         /// </returns>
-        /// <param name="parameter">Data used by the command.  If the command does not require data to be passed, this object can be set to null.</param>
+        /// <param name="parameter">
+        ///     Data used by the command.  If the command does not require data to be passed, this object can
+        ///     be set to null.
+        /// </param>
         public override bool CanExecute(object parameter)
         {
-            return this.canExecute == null
-                   || this.canExecute((T)parameter);
+            return _canExecute == null
+                   || _canExecute((T) parameter);
         }
 
         protected override void InvokeAction(object parameter)
         {
-            this.action((T)parameter);
+            _action((T) parameter);
         }
     }
 }

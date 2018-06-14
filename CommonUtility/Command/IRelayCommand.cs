@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace CommonUtility.Command
 {
-    interface IRelayCommand : ICommand
+    internal interface IRelayCommand : ICommand
     {
         event EventHandler Executed;
         event EventHandler Executing;

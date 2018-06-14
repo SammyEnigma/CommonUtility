@@ -8,15 +8,15 @@ namespace CommonUtility.Http
 {
     public class HttpWebRequestClient
     {
-        private HttpWebRequest client;
-        private MemoryStream postStream = new MemoryStream();
+        private readonly HttpWebRequest _client;
+        private readonly MemoryStream _postStream = new MemoryStream();
 
         private HttpWebRequestClient(string url)
         {
-            client = WebRequest.Create(url) as HttpWebRequest;
-            client.CookieContainer = new CookieContainer();
-            client.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0";
-            client.AllowAutoRedirect = true;
+            _client = WebRequest.Create(url) as HttpWebRequest;
+            _client.CookieContainer = new CookieContainer();
+            _client.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0";
+            _client.AllowAutoRedirect = true;
         }
 
         public static HttpWebRequestClient Create(string url)
@@ -26,21 +26,21 @@ namespace CommonUtility.Http
 
         public HttpWebRequestClient WithProxy(IWebProxy webProxy)
         {
-            client.Proxy = webProxy;
+            _client.Proxy = webProxy;
 
             return this;
         }
 
         public HttpWebRequestClient WithCookies(CookieContainer cookieContainer)
         {
-            client.CookieContainer = cookieContainer;
+            _client.CookieContainer = cookieContainer;
 
             return this;
         }
 
         public HttpWebRequestClient AutoRedirect(bool allowAutoRedirect)
         {
-            client.AllowAutoRedirect = allowAutoRedirect;
+            _client.AllowAutoRedirect = allowAutoRedirect;
 
             return this;
         }
@@ -50,9 +50,10 @@ namespace CommonUtility.Http
             return WithParamters(parameters, Encoding.UTF8);
         }
 
-        public HttpWebRequestClient WithParamters(IEnumerable<KeyValuePair<string, string>> parameters, Encoding encoding)
+        public HttpWebRequestClient WithParamters(IEnumerable<KeyValuePair<string, string>> parameters,
+            Encoding encoding)
         {
-            CachePostData(parameters, postStream);
+            CachePostData(parameters, _postStream);
 
             return this;
         }
@@ -67,18 +68,18 @@ namespace CommonUtility.Http
 
         private void DoPostData()
         {
-            if (postStream.Length > 0)
+            if (_postStream.Length > 0)
             {
-                client.Method = "POST";
-                client.ContentType = "application/x-www-form-urlencoded";
-                client.ContentLength = postStream.Length;
+                _client.Method = "POST";
+                _client.ContentType = "application/x-www-form-urlencoded";
+                _client.ContentLength = _postStream.Length;
 
-                postStream.Position = 0;
+                _postStream.Position = 0;
 
-                client.ContentLength = postStream.Length;
-                using (var req = client.GetRequestStream())
+                _client.ContentLength = _postStream.Length;
+                using (var req = _client.GetRequestStream())
                 {
-                    postStream.CopyTo(req);
+                    _postStream.CopyTo(req);
                 }
             }
         }
@@ -87,8 +88,8 @@ namespace CommonUtility.Http
         {
             DoPostData();
 
-            var response = client.GetResponse() as HttpWebResponse;
-            client.CookieContainer.Add(response.Cookies);
+            var response = _client.GetResponse() as HttpWebResponse;
+            _client.CookieContainer.Add(response.Cookies);
 
             return response.GetResponseStream();
         }

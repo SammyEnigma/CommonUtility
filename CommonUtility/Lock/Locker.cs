@@ -4,22 +4,21 @@ namespace CommonUtility.Lock
 {
     public class Locker
     {
-        static readonly object mLockObj = new object();
-        static Dictionary<string, object> mLockers = new Dictionary<string, object>();
+        private static readonly object SyncObj = new object();
+        private static readonly Dictionary<string, object> Lockers = new Dictionary<string, object>();
 
         public static object GetLocker(string name)
         {
-            if (!mLockers.TryGetValue(name, out object locker))
-            {
-                lock (mLockObj)
+            if (!Lockers.TryGetValue(name, out var locker))
+                lock (SyncObj)
                 {
-                    if (!mLockers.TryGetValue(name, out locker))
+                    if (!Lockers.TryGetValue(name, out locker))
                     {
                         locker = new object();
-                        mLockers[name] = locker;
+                        Lockers[name] = locker;
                     }
                 }
-            }
+
             return locker;
         }
     }
