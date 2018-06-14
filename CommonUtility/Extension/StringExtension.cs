@@ -79,8 +79,10 @@ namespace CommonUtility.Extension
 
         public static Guid ToGuid(this string value, Encoding encoding)
         {
-            return new Guid(new Cryptography().SetHashAlgorithm(CryptoServiceProviderType.MD5).SetEncoding(encoding)
-                .ComputeHash(value).ToString(true));
+            using (var crypto = Cryptography.Create())
+            {
+                return new Guid(crypto.SetEncoding(encoding).ComputeHash(value).ToString(true));
+            }
         }
 
         #endregion

@@ -1,14 +1,31 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using CommonUtility.Extension;
 
 namespace CommonUtility.Security
 {
-    public class Cryptography
+    public class Cryptography : IDisposable
     {
         private Encoding _encoding;
         private HashAlgorithm _hashAlgorithm;
+
+        private Cryptography(HashAlgorithm hashAlgorithm, Encoding encoding)
+        {
+            _hashAlgorithm = hashAlgorithm;
+            _encoding = encoding;
+        }
+
+        public static Cryptography Create()
+        {
+            return Create(MD5.Create(), Encoding.UTF8);
+        }
+
+        public static Cryptography Create(HashAlgorithm hashAlgorithm, Encoding encoding)
+        {
+            return new Cryptography(hashAlgorithm, encoding);
+        }
 
         public HashAlgorithm HashAlgorithm
         {
@@ -50,6 +67,11 @@ namespace CommonUtility.Security
         public string UrlDecode(string value)
         {
             return value.UrlDecode(Encoding);
+        }
+
+        public void Dispose()
+        {
+            _hashAlgorithm?.Dispose();
         }
     }
 }

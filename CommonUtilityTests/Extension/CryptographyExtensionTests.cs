@@ -15,7 +15,7 @@ namespace CommonUtility.Extension.Tests
         public void SetHashAlgorithmTest()
         {
             var expectedValue = MD5.Create();
-            var actualValue = new Cryptography().SetHashAlgorithm(CryptoServiceProviderType.MD5);
+            var actualValue = Cryptography.Create().SetHashAlgorithm(CryptoServiceProviderType.MD5);
 
             Assert.AreEqual(expectedValue.ToString(), actualValue.HashAlgorithm.ToString());
         }
@@ -25,7 +25,7 @@ namespace CommonUtility.Extension.Tests
         public void SetEncodingTest()
         {
             var expectedValue = Encoding.UTF8;
-            var actualValue = new Cryptography().SetEncoding(Encoding.UTF8);
+            var actualValue = Cryptography.Create().SetEncoding(Encoding.UTF8);
 
             Assert.AreEqual(expectedValue, actualValue.Encoding);
         }

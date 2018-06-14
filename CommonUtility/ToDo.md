@@ -1,1 +1,1 @@
-﻿1. add save method to Configurator
+﻿- [x] add save method to Configurator
