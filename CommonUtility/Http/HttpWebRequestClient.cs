@@ -9,7 +9,7 @@ namespace CommonUtility.Http
     public class HttpWebRequestClient
     {
         private readonly HttpWebRequest _client;
-        private readonly MemoryStream _postStream = new MemoryStream();
+        private readonly List<KeyValuePair<string, string>> _parameters = new List<KeyValuePair<string, string>>();
 
         private HttpWebRequestClient(string url)
         {
@@ -47,39 +47,23 @@ namespace CommonUtility.Http
 
         public HttpWebRequestClient WithParamters(IEnumerable<KeyValuePair<string, string>> parameters)
         {
-            return WithParamters(parameters, Encoding.UTF8);
-        }
-
-        public HttpWebRequestClient WithParamters(IEnumerable<KeyValuePair<string, string>> parameters,
-            Encoding encoding)
-        {
-            CachePostData(parameters, _postStream);
+            if (null != parameters)
+                _parameters.AddRange(parameters);
 
             return this;
         }
 
-        private async void CachePostData(IEnumerable<KeyValuePair<string, string>> parameters, MemoryStream postStream)
-        {
-            using (var content = new FormUrlEncodedContent(parameters))
-            {
-                await content.CopyToAsync(postStream);
-            }
-        }
-
         private void DoPostData()
         {
-            if (_postStream.Length > 0)
+            if (_parameters.Count > 0)
             {
                 _client.Method = "POST";
                 _client.ContentType = "application/x-www-form-urlencoded";
-                _client.ContentLength = _postStream.Length;
 
-                _postStream.Position = 0;
-
-                _client.ContentLength = _postStream.Length;
                 using (var req = _client.GetRequestStream())
+                using (var content = new FormUrlEncodedContent(_parameters))
                 {
-                    _postStream.CopyTo(req);
+                    content.CopyToAsync(req);
                 }
             }
         }

@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/3gbywork/CommonUtility</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>add SetConfiguration to Configurator, update nlog.config etc.</releaseNotes>
+    <releaseNotes>fix bugs</releaseNotes>
     <copyright>Copyright 2017-2018</copyright>
     <tags>C# Utility</tags>
   </metadata>
