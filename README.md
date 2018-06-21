@@ -5,4 +5,4 @@ To install CommonUtility for c#, run the following command in the Package Manage
   
   ~~PM> Install-Package net.3gbywork.CommonUtility~~
   
-  **PM> Install-Package Net.Liap.CommonUtility -Version 1.1.1.6**
+  **PM> Install-Package Net.Liap.CommonUtility -Version 1.1.2.8**
