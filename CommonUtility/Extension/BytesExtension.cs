@@ -6,7 +6,7 @@ namespace CommonUtility.Extension
     public static class BytesExtension
     {
         /// <summary>
-        ///     Convert byte array to string
+        ///     Convert byte array to Hex string
         /// </summary>
         /// <param name="bytes"></param>
         /// <param name="removeHyphen">replace '-' with ''</param>

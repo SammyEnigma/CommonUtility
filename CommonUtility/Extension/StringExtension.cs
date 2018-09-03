@@ -24,14 +24,19 @@ namespace CommonUtility.Extension
 
         #region Encoding
 
+        public static byte[] ToBytes(this string value, Encoding encoding)
+        {
+            return encoding.GetBytes(value);
+        }
+
         public static string ToBase64String(this string value, Encoding encoding)
         {
-            return encoding.GetBytes(value).ToBase64String();
+            return value.ToBytes(encoding).ToBase64String();
         }
 
         public static string ToBase64UrlString(this string value, Encoding encoding)
         {
-            return encoding.GetBytes(value).ToBase64UrlString();
+            return value.ToBytes(encoding).ToBase64UrlString();
         }
 
         public static string UrlEncode(this string value, Encoding encoding)
@@ -46,7 +51,7 @@ namespace CommonUtility.Extension
 
         public static string HexEncode(this string value, Encoding encoding, bool removeHyphen)
         {
-            return encoding.GetBytes(value).ToString(removeHyphen);
+            return value.ToBytes(encoding).ToString(removeHyphen);
         }
 
         public static string ToByteArray(this string value, Encoding encoding)
@@ -56,7 +61,7 @@ namespace CommonUtility.Extension
 
         public static string ToByteArray(this string value, Encoding encoding, string format)
         {
-            var bytes = encoding.GetBytes(value);
+            var bytes = value.ToBytes(encoding);
             var result = new StringBuilder();
             foreach (var item in bytes) result.AppendFormat(format, item);
             return result.ToString();
