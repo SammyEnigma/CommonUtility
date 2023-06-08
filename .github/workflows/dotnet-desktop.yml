@@ -91,7 +91,7 @@ jobs:
 
     # Pack
     - name: Build the library
-      run: msbuild $env:Solution_Name /t:pack /p:Configuration=$env:Configuration
+      run: msbuild $env:Solution_Name /t:rebuild /p:Configuration=$env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}
 
